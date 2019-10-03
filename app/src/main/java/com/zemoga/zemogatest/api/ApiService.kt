@@ -7,6 +7,6 @@ import retrofit2.http.GET
 interface ApiService {
 
     @GET("posts")
-    fun requestPosts() : Call<Post>
+    fun requestPosts(): Call<List<Post>>
 
 }
