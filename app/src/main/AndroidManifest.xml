@@ -16,7 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.activities.PostActivity"
+            android:name=".ui.PostActivity"
             android:label="@string/title_post_list"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -26,19 +26,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.activities.PostDetailActivity"
-            android:label="@string/title_post_detail"
-            android:parentActivityName=".ui.activities.PostActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zemoga.zemogatest.ui.activities.PostActivity" />
-        </activity>
-
-        <activity android:name=".ui.activities.TestDataActivity">
-
-        </activity>
     </application>
 
 </manifest>

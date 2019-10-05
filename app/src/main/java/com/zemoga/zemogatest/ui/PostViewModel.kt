@@ -1,4 +1,4 @@
-package com.zemoga.zemogatest.viewmodel
+package com.zemoga.zemogatest.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

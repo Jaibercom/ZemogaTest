@@ -1,6 +1,5 @@
-package com.zemoga.zemogatest.ui
+package com.zemoga.zemogatest.ui.postlist
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.model.Post
 import kotlinx.android.synthetic.main.post_list_content.view.*
-import timber.log.Timber
 
 /**
  *
@@ -36,44 +34,21 @@ class PostAdapter(
         val post = posts[position]
         holder.idView.text = post.userId.toString()
         holder.contentView.text = post.title
-
     }
 
     override fun getItemCount() = posts.size
 
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val idView: TextView = view.id_text
         val contentView: TextView = view.content
 
         init {
-            view.setOnClickListener(this)
-        }
-
-        override fun onClick(view: View?) {
-
-            Timber.d("onClick position: $adapterPosition")
-            Log.d("AAA", "onClick position: $adapterPosition")
-            view?.setOnClickListener({
-                Timber.d("*onClick position: $adapterPosition")
+            view.setOnClickListener{
                 clickListener.onItemClick(adapterPosition)
-            })
+            }
         }
     }
-
-//    override fun onClick(view: View ){
-//        val post = view.get
-//
-//        this.postViewModel.setPosition(post)
-//
-//        val fragment = PostDetailFragment.newInstance(post.userId)
-//
-//        parentActivity.supportFragmentManager
-//            .beginTransaction()
-//            .addToBackStack("PostsDetailFragment")
-//            .replace(R.id.fragmentContainer, fragment)
-//            .commit()
-//    }
 
     fun updatePostList(posts: List<Post>?) {
         if (!posts.isNullOrEmpty()) {
