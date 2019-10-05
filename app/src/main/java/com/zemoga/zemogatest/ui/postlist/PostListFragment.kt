@@ -27,7 +27,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
 
         postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
-        postViewModel.loadPosts()
+        postViewModel.requestPosts()
         suscribe()
     }
 

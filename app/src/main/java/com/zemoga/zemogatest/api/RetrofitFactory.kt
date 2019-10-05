@@ -15,7 +15,8 @@ object RetrofitFactory {
 
     fun retrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-//        .callbackExecutor(Executors.newSingleThreadExecutor())
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
+
+    fun apiService(): ApiService = retrofit().create(ApiService::class.java)
 }

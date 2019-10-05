@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.model.Post
+import com.zemoga.zemogatest.model.User
 import com.zemoga.zemogatest.ui.PostViewModel
 import kotlinx.android.synthetic.main.fragment_post_detail.*
 import timber.log.Timber
@@ -20,7 +21,10 @@ import timber.log.Timber
 class PostDetailFragment : Fragment() {
 
     private lateinit var postViewModel: PostViewModel
-    private lateinit var post: Post
+    private lateinit var detailViewModel: DetailViewModel
+
+    private var post: Post? = null
+    private var user: User? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,13 +46,38 @@ class PostDetailFragment : Fragment() {
                 post = postViewModel.observablePostList.value?.get(it)!!
 
                 updateUi()
+                post?.let { post ->
+                    requestUser(post.userId)
+                }
             }
         })
+
+
+        detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
+        detailViewModel.observableUser.observe(this, Observer {
+            user = it
+            updateUi()
+        })
+
     }
 
     private fun updateUi() {
-        Timber.i("Text: ${post.title}")
-        post_detail.text = post.title
+        Timber.i("Text: ${post?.title}")
+        post?.let{
+            post_detail.text = it.title
+        }
+
+        user?.let{
+            name.text = it.name
+            email.text = it.email
+            phone.text = it.phone
+            website.text = it.website
+        }
+    }
+
+    private fun requestUser(userId: Int) {
+        detailViewModel.requestUser(userId)
+
     }
 
     companion object {

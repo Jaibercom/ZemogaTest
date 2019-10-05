@@ -26,7 +26,7 @@ class PostViewModel : ViewModel() {
     }
 
     //TODO crear repository para buscar en local o hacer llamado
-    fun loadPosts() {
+    fun requestPosts() {
         Timber.d("Loading postList")
         val apiService = RetrofitFactory.retrofit().create(ApiService::class.java)
 
