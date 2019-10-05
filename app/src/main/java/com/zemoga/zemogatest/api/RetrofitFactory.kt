@@ -7,14 +7,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitFactory {
 
-    val baseUrl = "https://jsonplaceholder.typicode.com"
+    const val BASE_URL = "https://jsonplaceholder.typicode.com"
 
     val gson = GsonBuilder()
         .setLenient()
         .create()
 
     fun retrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
+        .baseUrl(BASE_URL)
 //        .callbackExecutor(Executors.newSingleThreadExecutor())
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()

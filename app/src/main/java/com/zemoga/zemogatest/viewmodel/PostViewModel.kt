@@ -11,38 +11,39 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class PostsViewModel : ViewModel() {
+class PostViewModel : ViewModel() {
 
     private var posts = MutableLiveData<List<Post>>()
-    private val selected = MutableLiveData<Post>()
-
-    lateinit var apiService: ApiService
-
+    private val selectedPost = MutableLiveData<Post>()
 
     fun getPosts(): LiveData<List<Post>> = posts
 
-    fun getSelectedPost(): LiveData<Post> = selected
+    fun getSelectedPost(): LiveData<Post> = selectedPost
 
 
-    fun setSelectedPost(product: Post) {
-        selected.value = product
+    fun setSelectedPost(post: Post) {
+        selectedPost.value = post
     }
 
-    fun getPostsList(): List<Post>? {
-        return posts.value
-    }
+//    fun getPostsList(): List<Post>? {
+//        return posts.value
+//    }
 
+    //TODO crear repository para buscar en local o hacer llamado
     fun loadPosts() {
-
-        apiService = RetrofitFactory.retrofit().create(ApiService::class.java)
+        Timber.d("Loading posts")
+        val apiService = RetrofitFactory.retrofit().create(ApiService::class.java)
 
         apiService.requestPosts().enqueue(object : Callback<List<Post>> {
 
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                Timber.d(response.body()?.get(0).toString())
+//                Timber.d(response.body()?.get(0).toString())
+                Timber.d("onResponse")
 
                 if (response.isSuccessful) {
                     posts.value = response.body()
+                } else {
+                    //TODO mostrar error
                 }
             }
 

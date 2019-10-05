@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".ui.PostListActivity">
+    tools:context=".ui.activities.PostActivity">
 
     <!--
     This layout is a two-pane layout for the Pots
@@ -27,7 +27,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.zemoga.zemogatest.ui.PostListActivity"
+        tools:context="com.zemoga.zemogatest.ui.activities.PostActivity"
         tools:listitem="@layout/post_list_content" />
 
     <FrameLayout

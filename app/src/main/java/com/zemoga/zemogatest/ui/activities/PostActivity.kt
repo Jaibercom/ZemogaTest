@@ -1,17 +1,14 @@
-package com.zemoga.zemogatest.ui
+package com.zemoga.zemogatest.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.zemogatest.R
+import com.zemoga.zemogatest.ui.fragments.PostListFragment
 import com.zemoga.zemogatest.ui.dummy.PostRecyclerViewAdapter
-import com.zemoga.zemogatest.viewmodel.PostsViewModel
+import com.zemoga.zemogatest.viewmodel.PostViewModel
 import kotlinx.android.synthetic.main.activity_post_list.*
 import kotlinx.android.synthetic.main.post_list.*
-import timber.log.Timber
 
 /**
  * An activity representing a list of Pings. This activity
@@ -21,7 +18,7 @@ import timber.log.Timber
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-class PostListActivity : AppCompatActivity() {
+class PostActivity : AppCompatActivity() {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -31,7 +28,7 @@ class PostListActivity : AppCompatActivity() {
 
     private lateinit var adapter: PostRecyclerViewAdapter
 
-    private lateinit var postsViewModel: PostsViewModel
+    private lateinit var postViewModel: PostViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,17 +55,24 @@ class PostListActivity : AppCompatActivity() {
             // Add fragment to Activity
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainer, PostListFragment.newInstance())
+                .add(R.id.fragmentContainer,
+                    PostListFragment.newInstance()
+                )
                 .addToBackStack("PostsListFragment")
                 .commit()
         }
 
 
-//        postsViewModel = ViewModelProviders.of(this).get(PostsViewModel::class.java)
-//        postsViewModel.loadPosts()
+//        postViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
+//        postViewModel.loadPosts()
 //        suscribe()
 //
 //        setupRecyclerView(post_list)
+    }
+
+
+    fun enableActionBar(active: Boolean){
+
     }
 
 //    private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -77,7 +81,7 @@ class PostListActivity : AppCompatActivity() {
 //    }
 //
 //    private fun suscribe() {
-//        postsViewModel.getPosts().observe(this, Observer { posts ->
+//        postViewModel.getPosts().observe(this, Observer { posts ->
 //            Timber.d("Size: ${posts?.size}")
 ////                adapter.updateList(productList)
 //            for (value in posts) {
