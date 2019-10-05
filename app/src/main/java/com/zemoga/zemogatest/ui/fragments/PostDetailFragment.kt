@@ -38,19 +38,20 @@ class PostDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // Show the Up button in the action bar.
         postViewModel.getSelectedPost().observe(this, Observer { item ->
             // update UI
             item?.let {
-                post = it
+                post = postViewModel.getPosts().value?.get(it)!!
 
                 Timber.i("Product ${post.title}")
-                updateView()
+                updateUi()
             }
         })
     }
 
-    fun updateView() {
+    fun updateUi() {
 
         post_detail.text = post.title
     }

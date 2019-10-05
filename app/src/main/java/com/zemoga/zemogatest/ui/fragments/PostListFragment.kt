@@ -1,28 +1,34 @@
 package com.zemoga.zemogatest.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-
 import com.zemoga.zemogatest.R
-import com.zemoga.zemogatest.ui.activities.PostActivity
-import com.zemoga.zemogatest.ui.dummy.PostRecyclerViewAdapter
+import com.zemoga.zemogatest.model.Post
+import com.zemoga.zemogatest.ui.PostAdapter
 import com.zemoga.zemogatest.viewmodel.PostViewModel
 import kotlinx.android.synthetic.main.post_list.*
 import timber.log.Timber
 
+
 /**
  * A simple [Fragment] subclass.
  */
-class PostListFragment : Fragment() {
+class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
-    private lateinit var adapter: PostRecyclerViewAdapter
     private lateinit var postViewModel: PostViewModel
+//    private lateinit var clickListener: PostAdapter.OnItemClickListener
+//    private lateinit var postAdapter: PostAdapter
+
+    private val postAdapter by lazy {
+        PostAdapter(this as PostAdapter.OnItemClickListener)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,21 +54,42 @@ class PostListFragment : Fragment() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        adapter = PostRecyclerViewAdapter(activity as PostActivity, false, postViewModel)
-        recyclerView.adapter = adapter
+//        clickListener = this::onPostClicked
+//        postAdapter = PostAdapter(this)
+        recyclerView.adapter = postAdapter
     }
 
     private fun suscribe() {
         postViewModel.getPosts().observe(this, Observer { posts ->
             Timber.d("Size: ${posts?.size}")
-//                adapter.updateList(productList)
             for (value in posts) {
                 Timber.d("Title: ${value.title}")
             }
 
-            adapter.updatePostList(posts)
+            postAdapter.updatePostList(posts)
         })
     }
+
+    override fun onItemClick(position: Int) {
+        //        val navDirections = actionNotesToNoteDetail(note.id)
+//        view?.let {
+//            findNavController(it).navigate(navDirections)
+//        }
+        Timber.d("onPostClicked ${position}")
+
+        this.postViewModel.setSelectedPost(position)
+
+        val fragment = PostDetailFragment.newInstance(position)
+
+        activity?.apply {
+            supportFragmentManager
+                .beginTransaction()
+                .addToBackStack("PostsDetailFragment")
+                .replace(R.id.fragmentContainer, fragment)
+                .commit()
+        }
+    }
+
 
     companion object {
 

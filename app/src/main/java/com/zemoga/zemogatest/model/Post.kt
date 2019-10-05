@@ -15,5 +15,4 @@ data class Post(
 
     @SerializedName("body")
     val body: String
-
 )

@@ -14,20 +14,16 @@ import timber.log.Timber
 class PostViewModel : ViewModel() {
 
     private var posts = MutableLiveData<List<Post>>()
-    private val selectedPost = MutableLiveData<Post>()
+    private val selectedPost = MutableLiveData<Int>()
+    private val twoPanel  = MutableLiveData<Boolean>()
 
     fun getPosts(): LiveData<List<Post>> = posts
 
-    fun getSelectedPost(): LiveData<Post> = selectedPost
+    fun getSelectedPost(): LiveData<Int> = selectedPost
 
-
-    fun setSelectedPost(post: Post) {
-        selectedPost.value = post
+    fun setSelectedPost(position: Int) {
+        selectedPost.value = position
     }
-
-//    fun getPostsList(): List<Post>? {
-//        return posts.value
-//    }
 
     //TODO crear repository para buscar en local o hacer llamado
     fun loadPosts() {
