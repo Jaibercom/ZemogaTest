@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.ui.PostAdapter
@@ -21,6 +24,7 @@ import timber.log.Timber
 class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
     private lateinit var postViewModel: PostViewModel
+//    private lateinit var view: View
 
     private val postAdapter by lazy {
         PostAdapter(this as PostAdapter.OnItemClickListener)
@@ -44,7 +48,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+//        this.view = view
         setupRecyclerView(post_list)
     }
 
@@ -53,7 +57,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     }
 
     private fun suscribe() {
-        postViewModel.getPosts().observe(this, Observer { posts ->
+        postViewModel.observablePostList.observe(this, Observer { posts ->
             Timber.d("Size: ${posts?.size}")
             for (value in posts) {
                 Timber.d("Title: ${value.title}")
@@ -68,14 +72,8 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
         this.postViewModel.setPosition(position)
 
-        val fragment = PostDetailFragment.newInstance(position)
-
-        activity?.apply {
-            supportFragmentManager
-                .beginTransaction()
-                .addToBackStack("PostsDetailFragment")
-                .replace(R.id.fragmentContainer, fragment)
-                .commit()
+        view?.let {
+            Navigation.findNavController(it).navigate(R.id.action_postListFragment_to_postDetailFragment)
         }
     }
 

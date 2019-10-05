@@ -32,19 +32,19 @@ class PostDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fargment_post_detail, container, false)
+        return inflater.inflate(R.layout.fragment_post_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // Show the Up button in the action bar.
-        postViewModel.getPosition().observe(this, Observer { item ->
+        postViewModel.getPosition().observe(this, Observer { position ->
             // update UI
-            item?.let {
-                post = postViewModel.getPosts().value?.get(it)!!
+            position?.let {
+                Timber.i("Position $position")
+                post = postViewModel.observablePostList.value?.get(it)!!
 
-                Timber.i("Product ${post.title}")
                 updateUi()
             }
         })

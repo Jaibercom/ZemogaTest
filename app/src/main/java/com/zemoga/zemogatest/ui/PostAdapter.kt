@@ -1,5 +1,6 @@
 package com.zemoga.zemogatest.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +20,6 @@ class PostAdapter(
     RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
     private var posts = mutableListOf<Post>()
-
-//    private var onItemClickListener: OnItemClickListener
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
@@ -53,8 +52,10 @@ class PostAdapter(
 
         override fun onClick(view: View?) {
 
+            Timber.d("onClick position: $adapterPosition")
+            Log.d("AAA", "onClick position: $adapterPosition")
             view?.setOnClickListener({
-                Timber.d("onClick position: $adapterPosition")
+                Timber.d("*onClick position: $adapterPosition")
                 clickListener.onItemClick(adapterPosition)
             })
         }

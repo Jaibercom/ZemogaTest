@@ -2,10 +2,11 @@ package com.zemoga.zemogatest.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.zemogatest.R
-import com.zemoga.zemogatest.ui.fragments.PostListFragment
-import kotlinx.android.synthetic.main.activity_post_list.*
+import kotlinx.android.synthetic.main.activity_post.*
 
 /**
  * An activity representing a list of Pings. This activity
@@ -19,7 +20,7 @@ class PostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post_list)
+        setContentView(R.layout.activity_post)
 
         setSupportActionBar(toolbar)
         toolbar.title = title
@@ -29,15 +30,25 @@ class PostActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        if (savedInstanceState == null) {
-            // Add fragment to Activity
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragmentContainer,
-                    PostListFragment.newInstance()
-                )
-                .addToBackStack("PostsListFragment")
-                .commit()
-        }
+//        if (savedInstanceState == null) {
+//            // Add fragment to Activity
+//            supportFragmentManager
+//                .beginTransaction()
+//                .add(R.id.fragmentContainer,
+//                    PostListFragment.newInstance()
+//                )
+//                .addToBackStack("PostsListFragment")
+//                .commit()
+//        }
+
+        setupNavigation()
+    }
+
+
+    private fun setupNavigation() {
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+
+        // Update action bar to reflect navigation
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 }

@@ -13,10 +13,11 @@ import timber.log.Timber
 
 class PostViewModel : ViewModel() {
 
-    private var posts = MutableLiveData<List<Post>>()
+    private var postList = MutableLiveData<List<Post>>()
     private val position = MutableLiveData<Int>()
 
-    fun getPosts(): LiveData<List<Post>> = posts
+    val observablePostList: LiveData<List<Post>>
+        get() = postList
 
     fun getPosition(): LiveData<Int> = position
 
@@ -26,7 +27,7 @@ class PostViewModel : ViewModel() {
 
     //TODO crear repository para buscar en local o hacer llamado
     fun loadPosts() {
-        Timber.d("Loading posts")
+        Timber.d("Loading postList")
         val apiService = RetrofitFactory.retrofit().create(ApiService::class.java)
 
         apiService.requestPosts().enqueue(object : Callback<List<Post>> {
@@ -36,7 +37,7 @@ class PostViewModel : ViewModel() {
                 Timber.d("onResponse")
 
                 if (response.isSuccessful) {
-                    posts.value = response.body()
+                    postList.value = response.body()
                 } else {
                     //TODO mostrar error
                 }
