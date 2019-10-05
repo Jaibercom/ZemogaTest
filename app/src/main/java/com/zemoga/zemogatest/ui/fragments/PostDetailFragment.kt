@@ -38,9 +38,8 @@ class PostDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // Show the Up button in the action bar.
-        postViewModel.getSelectedPost().observe(this, Observer { item ->
+        postViewModel.getPosition().observe(this, Observer { item ->
             // update UI
             item?.let {
                 post = postViewModel.getPosts().value?.get(it)!!
@@ -52,10 +51,8 @@ class PostDetailFragment : Fragment() {
     }
 
     fun updateUi() {
-
         post_detail.text = post.title
     }
-
 
     companion object {
 
@@ -74,5 +71,4 @@ class PostDetailFragment : Fragment() {
             }
         }
     }
-
 }

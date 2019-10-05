@@ -63,7 +63,7 @@ class PostAdapter(
 //    override fun onClick(view: View ){
 //        val post = view.get
 //
-//        this.postViewModel.setSelectedPost(post)
+//        this.postViewModel.setPosition(post)
 //
 //        val fragment = PostDetailFragment.newInstance(post.userId)
 //

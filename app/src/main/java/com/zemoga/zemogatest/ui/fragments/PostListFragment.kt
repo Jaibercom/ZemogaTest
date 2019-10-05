@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.zemogatest.R
-import com.zemoga.zemogatest.model.Post
 import com.zemoga.zemogatest.ui.PostAdapter
 import com.zemoga.zemogatest.viewmodel.PostViewModel
 import kotlinx.android.synthetic.main.post_list.*
@@ -23,13 +21,10 @@ import timber.log.Timber
 class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
     private lateinit var postViewModel: PostViewModel
-//    private lateinit var clickListener: PostAdapter.OnItemClickListener
-//    private lateinit var postAdapter: PostAdapter
 
     private val postAdapter by lazy {
         PostAdapter(this as PostAdapter.OnItemClickListener)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +49,6 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-//        clickListener = this::onPostClicked
-//        postAdapter = PostAdapter(this)
         recyclerView.adapter = postAdapter
     }
 
@@ -71,13 +64,9 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        //        val navDirections = actionNotesToNoteDetail(note.id)
-//        view?.let {
-//            findNavController(it).navigate(navDirections)
-//        }
         Timber.d("onPostClicked ${position}")
 
-        this.postViewModel.setSelectedPost(position)
+        this.postViewModel.setPosition(position)
 
         val fragment = PostDetailFragment.newInstance(position)
 
@@ -89,7 +78,6 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
                 .commit()
         }
     }
-
 
     companion object {
 
