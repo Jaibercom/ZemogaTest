@@ -33,7 +33,6 @@ class PostViewModel : ViewModel() {
         apiService.requestPosts().enqueue(object : Callback<List<Post>> {
 
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-//                Timber.d(response.body()?.get(0).toString())
                 Timber.d("onResponse")
 
                 if (response.isSuccessful) {
