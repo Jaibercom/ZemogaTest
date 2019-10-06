@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.zemogatest.R
+import com.zemoga.zemogatest.model.Comment
 import com.zemoga.zemogatest.model.Post
 import com.zemoga.zemogatest.model.User
 import com.zemoga.zemogatest.ui.PostViewModel
@@ -25,6 +28,9 @@ class PostDetailFragment : Fragment() {
 
     private var post: Post? = null
     private var user: User? = null
+    private var commentList: List<Comment>? = null
+
+    private lateinit var commentAdapter: CommentAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +44,21 @@ class PostDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
-        // Show the Up button in the action bar.
-        postViewModel.getPosition().observe(this, Observer { position ->
+        detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
+
+        setupRecyclerView(commentRecyclerView)
+        suscribe()
+    }
+
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        commentAdapter = CommentAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        recyclerView.adapter = commentAdapter
+        recyclerView.setHasFixedSize(true)
+    }
+
+    private fun suscribe() {
+        postViewModel.observablePosition.observe(this, Observer { position ->
             // update UI
             position?.let {
                 Timber.i("Position $position")
@@ -48,36 +67,49 @@ class PostDetailFragment : Fragment() {
                 updateUi()
                 post?.let { post ->
                     requestUser(post.userId)
+                    requestComments(post.id)
                 }
             }
         })
 
-
-        detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
         detailViewModel.observableUser.observe(this, Observer {
             user = it
             updateUi()
         })
 
+        detailViewModel.observableComment.observe(this, Observer {
+            Timber.d("ListComment size: ${it.size}")
+            for(value in it){
+                Timber.d("Comment: ${value.name}")
+            }
+            commentList = it
+            updateUi()
+        })
     }
 
     private fun updateUi() {
-        Timber.i("Text: ${post?.title}")
-        post?.let{
+        post?.let {
             post_detail.text = it.title
         }
 
-        user?.let{
+        user?.let {
             name.text = it.name
             email.text = it.email
             phone.text = it.phone
             website.text = it.website
         }
+
+        commentList?.let {
+            commentAdapter.updateCommentList(it)
+        }
     }
 
     private fun requestUser(userId: Int) {
         detailViewModel.requestUser(userId)
+    }
 
+    private fun requestComments(postId: Int) {
+        detailViewModel.requestComments(postId)
     }
 
     companion object {

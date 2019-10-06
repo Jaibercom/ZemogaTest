@@ -19,7 +19,8 @@ class PostViewModel : ViewModel() {
     val observablePostList: LiveData<List<Post>>
         get() = postList
 
-    fun getPosition(): LiveData<Int> = position
+    val observablePosition: LiveData<Int>
+        get() = position
 
     fun setPosition(position: Int) {
         this.position.value = position

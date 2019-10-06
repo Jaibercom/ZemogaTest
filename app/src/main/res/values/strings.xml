@@ -8,4 +8,8 @@
     <string name="description">Description</string>
     <string name="user">User</string>
     <string name="comments">Comments</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="website">Website</string>
 </resources>

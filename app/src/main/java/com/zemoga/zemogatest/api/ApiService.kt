@@ -1,5 +1,6 @@
 package com.zemoga.zemogatest.api
 
+import com.zemoga.zemogatest.model.Comment
 import com.zemoga.zemogatest.model.Post
 import com.zemoga.zemogatest.model.User
 import retrofit2.Call
@@ -15,12 +16,10 @@ interface ApiService {
     fun requestPosts(): Call<List<Post>>
 
     @GET("/users/{id}")
-    fun requestUser(@Path("id") id: Int): Callback<User>
+    fun requestUser(@Path(value = "id") userId: Int): Call<User>
 
-    @GET("/users")
-    fun requestUser(@Query("id") id: Int, cb: Callback<User>)
+    @GET("/comments")
+    fun requestComments(@Query(value = "postId") userId: Int): Call<List<Comment>>
 
-    @GET("/users/{id}")
-    fun getUser(@Path(value = "id") userId: Int): Call<User>
-
+    //https://jsonplaceholder.typicode.com/comments?postId=1
 }

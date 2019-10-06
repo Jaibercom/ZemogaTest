@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/text_margin"
     tools:context=".ui.detail.PostDetailFragment">
 
     <TextView
@@ -40,8 +41,8 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="TextView"
+        style="@style/TextViewStyle"
+        android:text="@string/name"
         app:layout_constraintTop_toBottomOf="@+id/user_title"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -49,8 +50,8 @@
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="TextView"
+        style="@style/TextViewStyle"
+        android:text="@string/email"
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -58,8 +59,8 @@
         android:id="@+id/phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="TextView"
+        style="@style/TextViewStyle"
+        android:text="@string/phone"
         app:layout_constraintTop_toBottomOf="@+id/email"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -67,8 +68,8 @@
         android:id="@+id/website"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="TextView"
+        style="@style/TextViewStyle"
+        android:text="@string/website"
         app:layout_constraintTop_toBottomOf="@+id/phone"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -78,20 +79,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:padding="16dp"
+        android:padding="8dp"
         android:text="@string/comments"
         app:layout_constraintTop_toBottomOf="@+id/website"
         tools:layout_editor_absoluteX="0dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_comments"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:padding="16dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="@dimen/text_margin_short"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comments"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout_editor_absoluteX="16dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:listitem="@layout/comment_list_content" />
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
