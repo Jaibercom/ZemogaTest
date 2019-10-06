@@ -18,12 +18,21 @@ class PostViewModel : ViewModel() {
 
     val observablePostList: LiveData<List<Post>>
         get() = postList
+//        set(value) {
+//            field = value
+//            postList.value = null
+//        }
+//        set(newPostList) = { postList = newPostList }
 
     val observablePosition: LiveData<Int>
         get() = position
 
-    fun setPosition(position: Int) {
-        this.position.value = position
+    fun setPosition(pos: Int) {
+        position.value = pos
+    }
+
+    fun setPostList(posts: List<Post>?) {
+        postList.value = posts
     }
 
     //TODO crear repository para buscar en local o hacer llamado
@@ -37,7 +46,7 @@ class PostViewModel : ViewModel() {
                 Timber.d("onResponse")
 
                 if (response.isSuccessful) {
-                    postList.value = response.body()
+                    setPostList(response.body())
                 } else {
                     //TODO mostrar error
                 }

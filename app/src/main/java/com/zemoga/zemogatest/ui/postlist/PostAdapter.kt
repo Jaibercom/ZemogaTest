@@ -44,17 +44,15 @@ class PostAdapter(
         val contentView: TextView = view.content
 
         init {
-            view.setOnClickListener{
+            view.setOnClickListener {
                 clickListener.onItemClick(adapterPosition)
             }
         }
     }
 
     fun updatePostList(posts: List<Post>?) {
-        if (!posts.isNullOrEmpty()) {
-            this.posts.clear()
-            this.posts.addAll(posts)
-            notifyDataSetChanged()
-        }
+        this.posts.clear()
+        posts?.let { this.posts.addAll(it) }
+        notifyDataSetChanged()
     }
 }
