@@ -3,8 +3,6 @@ package com.zemoga.zemogatest.ui.postlist
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-import com.zemoga.zemogatest.ui.postlist.PostAdapter
-
 class SwipeToDeleteCallback(private val mAdapter: PostAdapter) :
     ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
