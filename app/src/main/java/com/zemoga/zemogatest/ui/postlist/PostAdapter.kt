@@ -35,7 +35,7 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = postList[position]
-        holder.idView.text = post.userId.toString()
+//        holder.idView.text = post.userId.toString()
         holder.contentView.text = post.title
     }
 
@@ -43,7 +43,7 @@ class PostAdapter(
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.id_text
+//        val idView: TextView = view.id_text
         val contentView: TextView = view.content
 
         init {
