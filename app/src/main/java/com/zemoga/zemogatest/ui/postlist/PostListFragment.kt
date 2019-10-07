@@ -1,9 +1,6 @@
 package com.zemoga.zemogatest.ui.postlist
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +10,8 @@ import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.ui.PostViewModel
 import kotlinx.android.synthetic.main.post_list.*
 import timber.log.Timber
+import android.view.*
+import android.view.MenuInflater
 
 
 /**
@@ -25,6 +24,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
         postViewModel.requestPosts()
@@ -54,8 +54,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        postAdapter =
-            PostAdapter(this as PostAdapter.OnItemClickListener)
+        postAdapter = PostAdapter(this as PostAdapter.OnItemClickListener)
         recyclerView.adapter = postAdapter
     }
 
@@ -73,6 +72,21 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
         view?.let {
             findNavController(it).navigate(R.id.action_postListFragment_to_postDetailFragment)
+        }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_post_list, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_refresh -> {
+                postViewModel.requestPosts()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
