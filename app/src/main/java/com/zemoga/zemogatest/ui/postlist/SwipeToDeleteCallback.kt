@@ -1,4 +1,4 @@
-package com.zemoga.zemogatest.ui
+package com.zemoga.zemogatest.ui.postlist
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
