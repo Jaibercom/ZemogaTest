@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.post_list.*
 import timber.log.Timber
 import android.view.*
 import android.view.MenuInflater
+import com.zemoga.zemogatest.ui.SwipeToDeleteCallback
+import androidx.recyclerview.widget.ItemTouchHelper
 
 
 /**
@@ -56,6 +58,9 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         postAdapter = PostAdapter(this as PostAdapter.OnItemClickListener)
         recyclerView.adapter = postAdapter
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(postAdapter))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun suscribe() {
