@@ -40,11 +40,11 @@ class PostViewModel : ViewModel() {
         Timber.d("Favorites: ${list?.size}")
     }
 
-    //TODO crear repository para buscar en local o hacer llamado
+    //TODO create a repository
     fun requestPosts() {
         Timber.d("Loading postList")
-        val apiService = RetrofitFactory.retrofit().create(ApiService::class.java)
 
+        val apiService = RetrofitFactory.apiService()
         apiService.requestPosts().enqueue(object : Callback<List<Post>> {
 
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
@@ -53,7 +53,7 @@ class PostViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     setPostList(response.body())
                 } else {
-                    //TODO mostrar error
+                    //TODO Show error
                 }
             }
 

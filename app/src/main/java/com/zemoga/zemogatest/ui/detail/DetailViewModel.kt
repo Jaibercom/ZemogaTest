@@ -15,8 +15,6 @@ import timber.log.Timber
 
 class DetailViewModel : ViewModel() {
 
-    private lateinit var apiService: ApiService
-
     private var post = MutableLiveData<Post>()
 
     val observablePost: LiveData<Post>
@@ -32,19 +30,11 @@ class DetailViewModel : ViewModel() {
     val observableComment: LiveData<List<Comment>>
         get() = comments
 
-    fun getNote(id: Int) {
-//        post.value = NotesManager.getNote(id)
-    }
 
-    init {
-        apiService = RetrofitFactory.apiService()
-    }
-
-
-    //TODO crear repository para buscar en local o hacer llamado
+    //TODO create a repository
     fun requestUser(userId: Int) {
         Timber.d("Loading user")
-
+        val apiService = RetrofitFactory.apiService()
         apiService.requestUser(userId).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 Timber.d("onResponse")
@@ -52,7 +42,7 @@ class DetailViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     user.value = response.body()
                 } else {
-                    //TODO mostrar error
+                    //TODO show error message
                 }
             }
 
@@ -66,23 +56,20 @@ class DetailViewModel : ViewModel() {
     fun requestComments(postId: Int) {
         Timber.d("Loading Comments")
 
+        val apiService = RetrofitFactory.apiService()
         apiService.requestComments(postId).enqueue(object : Callback<List<Comment>> {
             override fun onResponse(call: Call<List<Comment>>, response: Response<List<Comment>>) {
                 Timber.d("onResponse")
 
                 if (response.isSuccessful) {
                     comments.value = response.body()
-//                    for(value in comments.value!!){
-//                        Timber.d("${value.body}")
-//                    }
                 } else {
-                    //TODO mostrar error
+                    //TODO show error message
                 }
             }
 
             override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
             }
-
         })
     }
 }
