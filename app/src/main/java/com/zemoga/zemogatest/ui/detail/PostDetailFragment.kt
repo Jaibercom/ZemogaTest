@@ -137,6 +137,13 @@ class PostDetailFragment : Fragment() {
                     .navigate(R.id.action_postDetailFragment_to_postListFragment)
                 true
             }
+            android.R.id.home -> {
+                Timber.d("up navigation")
+                super.onOptionsItemSelected(item)
+                this.findNavController()
+                    .navigate(R.id.action_postDetailFragment_to_postListFragment)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
