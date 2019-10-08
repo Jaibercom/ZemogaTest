@@ -10,16 +10,21 @@
         android:label="@string/title_post_list">
         <action
             android:id="@+id/action_postListFragment_to_postDetailFragment"
-            app:destination="@id/postDetailFragment" />
+            app:destination="@id/postDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
         android:id="@+id/postDetailFragment"
         android:name="com.zemoga.zemogatest.ui.detail.PostDetailFragment"
-        android:label="@string/title_post_detail" >
+        android:label="@string/title_post_detail">
         <action
             android:id="@+id/action_postDetailFragment_to_postListFragment"
-            app:destination="@id/postListFragment" />
+            app:destination="@id/postListFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            />
     </fragment>
 
 </navigation>
