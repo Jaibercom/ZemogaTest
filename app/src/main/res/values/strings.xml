@@ -15,4 +15,5 @@
 
     <string name="snack_bar_text">1 post deleted</string>
     <string name="snack_bar_undo">Undo</string>
+    <string name="action_favorite">Add to favorite</string>
 </resources>

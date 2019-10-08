@@ -35,7 +35,19 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = postList[position]
-//        holder.idView.text = post.userId.toString()
+
+        if (post.isRead) {
+            holder.dot.visibility = View.INVISIBLE
+        } else {
+            holder.dot.visibility = View.VISIBLE
+        }
+
+        if (post.isFavorite) {
+            holder.starView.visibility = View.VISIBLE
+        } else {
+            holder.starView.visibility = View.INVISIBLE
+        }
+
         holder.contentView.text = post.title
     }
 
@@ -43,8 +55,9 @@ class PostAdapter(
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//        val idView: TextView = view.id_text
+        val dot: TextView = view.blue_dot
         val contentView: TextView = view.content
+        val starView: TextView = view.star
 
         init {
             view.setOnClickListener {

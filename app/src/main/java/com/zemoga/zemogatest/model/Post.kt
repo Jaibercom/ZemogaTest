@@ -14,5 +14,10 @@ data class Post(
     val title: String,
 
     @SerializedName("body")
-    val body: String
+    val body: String,
+
+    var isFavorite: Boolean,
+
+    var isRead: Boolean
+
 )

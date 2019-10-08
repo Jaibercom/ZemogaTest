@@ -28,8 +28,11 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         setHasOptionsMenu(true)
 
         postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
-        postViewModel.requestPosts()
-        suscribe()
+
+        if (postViewModel.observablePostList.value.isNullOrEmpty()) {
+            postViewModel.requestPosts()
+        }
+        subscribeUi()
     }
 
     override fun onCreateView(
@@ -58,15 +61,11 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         postAdapter = PostAdapter(this as PostAdapter.OnItemClickListener)
         recyclerView.adapter = postAdapter
 
-        val itemTouchHelper = ItemTouchHelper(
-            SwipeToDeleteCallback(
-                postAdapter
-            )
-        )
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(postAdapter))
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun suscribe() {
+    private fun subscribeUi() {
         postViewModel.observablePostList.observe(this, Observer { posts ->
             Timber.d("Size: ${posts?.size}")
             postAdapter.updatePostList(posts)
@@ -74,15 +73,15 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        Timber.d("onPostClicked ${position}")
+        Timber.d("onPostClicked $position")
 
         this.postViewModel.setPosition(position)
+        this.postViewModel.observablePostList.value?.get(position)?.isRead = true
 
         view?.let {
             findNavController(it).navigate(R.id.action_postListFragment_to_postDetailFragment)
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_post_list, menu)
@@ -95,14 +94,6 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    companion object {
-        private val fragment = PostListFragment()
-
-        fun newInstance(): PostListFragment {
-            return fragment
         }
     }
 }

@@ -18,11 +18,6 @@ class PostViewModel : ViewModel() {
 
     val observablePostList: LiveData<List<Post>>
         get() = postList
-//        set(value) {
-//            field = value
-//            postList.value = null
-//        }
-//        set(newPostList) = { postList = newPostList }
 
     val observablePosition: LiveData<Int>
         get() = position
@@ -33,6 +28,16 @@ class PostViewModel : ViewModel() {
 
     fun setPostList(posts: List<Post>?) {
         postList.value = posts
+    }
+
+    fun addFavorites() {
+        postList.value?.let {
+            val favorite = it[position.value!!].isFavorite
+            it[position.value!!].isFavorite = !favorite
+        }
+        val list = postList.value?.filter { it.isFavorite }
+
+        Timber.d("Favorites: ${list?.size}")
     }
 
     //TODO crear repository para buscar en local o hacer llamado

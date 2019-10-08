@@ -16,6 +16,10 @@
     <fragment
         android:id="@+id/postDetailFragment"
         android:name="com.zemoga.zemogatest.ui.detail.PostDetailFragment"
-        android:label="@string/title_post_detail" />
+        android:label="@string/title_post_detail" >
+        <action
+            android:id="@+id/action_postDetailFragment_to_postListFragment"
+            app:destination="@id/postListFragment" />
+    </fragment>
 
 </navigation>

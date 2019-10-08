@@ -1,12 +1,11 @@
 package com.zemoga.zemogatest.ui.detail
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.zemogatest.R
@@ -26,11 +25,20 @@ class PostDetailFragment : Fragment() {
     private lateinit var postViewModel: PostViewModel
     private lateinit var detailViewModel: DetailViewModel
 
-    private var post: Post? = null
+    private lateinit var post: Post
     private var user: User? = null
     private var commentList: List<Comment>? = null
 
     private lateinit var commentAdapter: CommentAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+        postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
+        detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
+        subscribeUI()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,11 +51,8 @@ class PostDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
-        detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
 
         setupRecyclerView(commentRecyclerView)
-        suscribe()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -57,7 +62,7 @@ class PostDetailFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
     }
 
-    private fun suscribe() {
+    private fun subscribeUI() {
         postViewModel.observablePosition.observe(this, Observer { position ->
             // update UI
             position?.let {
@@ -65,10 +70,8 @@ class PostDetailFragment : Fragment() {
                 post = postViewModel.observablePostList.value?.get(it)!!
 
                 updateUi()
-                post?.let { post ->
-                    requestUser(post.userId)
-                    requestComments(post.id)
-                }
+                requestUser(post.userId)
+                requestComments(post.id)
             }
         })
 
@@ -79,7 +82,7 @@ class PostDetailFragment : Fragment() {
 
         detailViewModel.observableComment.observe(this, Observer {
             Timber.d("ListComment size: ${it.size}")
-            for(value in it){
+            for (value in it) {
                 Timber.d("Comment: ${value.name}")
             }
             commentList = it
@@ -88,9 +91,7 @@ class PostDetailFragment : Fragment() {
     }
 
     private fun updateUi() {
-        post?.let {
-            post_detail.text = it.title
-        }
+        post_detail.text = post.title
 
         user?.let {
             name.text = it.name
@@ -110,6 +111,25 @@ class PostDetailFragment : Fragment() {
 
     private fun requestComments(postId: Int) {
         detailViewModel.requestComments(postId)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_detail_list, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        Timber.d("onOptionsItemSelected")
+        return when (item.itemId) {
+            R.id.action_favorite -> {
+                Timber.d("addFavorite")
+                postViewModel.addFavorites()
+                this.findNavController()
+                    .navigate(R.id.action_postDetailFragment_to_postListFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {
