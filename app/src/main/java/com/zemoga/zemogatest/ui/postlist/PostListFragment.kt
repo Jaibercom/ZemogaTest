@@ -1,18 +1,24 @@
 package com.zemoga.zemogatest.ui.postlist
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.ui.PostViewModel
-import kotlinx.android.synthetic.main.post_list.*
+import kotlinx.android.synthetic.main.fragment_post_list.delete_fab
+import kotlinx.android.synthetic.main.post_list.post_list
 import timber.log.Timber
-import android.view.*
-import android.view.MenuInflater
-import androidx.recyclerview.widget.ItemTouchHelper
 
 
 /**
@@ -47,9 +53,10 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView(post_list)
+        delete_fab.setOnClickListener(onDeleteClick())
     }
 
-    override fun onResume() {
+     override fun onResume() {
         super.onResume()
 
         postViewModel.observablePostList.value?.let {
@@ -81,6 +88,16 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         view?.let {
             findNavController(it).navigate(R.id.action_postListFragment_to_postDetailFragment)
         }
+    }
+
+    private fun onDeleteClick() = View.OnClickListener { view ->
+        Snackbar.make(view, "Delete?", Snackbar.LENGTH_LONG)
+            .setAction("OK", oKListener()).show()
+    }
+
+    private fun oKListener() = View.OnClickListener {
+        Timber.d("Deleting Post")
+        postViewModel.setPostList(emptyList())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

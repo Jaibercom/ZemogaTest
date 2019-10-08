@@ -1,7 +1,12 @@
 package com.zemoga.zemogatest.ui.detail
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,7 +18,12 @@ import com.zemoga.zemogatest.model.Comment
 import com.zemoga.zemogatest.model.Post
 import com.zemoga.zemogatest.model.User
 import com.zemoga.zemogatest.ui.PostViewModel
-import kotlinx.android.synthetic.main.fragment_post_detail.*
+import kotlinx.android.synthetic.main.fragment_post_detail.commentRecyclerView
+import kotlinx.android.synthetic.main.fragment_post_detail.email
+import kotlinx.android.synthetic.main.fragment_post_detail.name
+import kotlinx.android.synthetic.main.fragment_post_detail.phone
+import kotlinx.android.synthetic.main.fragment_post_detail.post_detail
+import kotlinx.android.synthetic.main.fragment_post_detail.website
 import timber.log.Timber
 
 /**
@@ -50,7 +60,6 @@ class PostDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         setupRecyclerView(commentRecyclerView)
     }
@@ -129,23 +138,6 @@ class PostDetailFragment : Fragment() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
-        const val ARG_ITEM_POS = "item_position"
-
-        fun newInstance(position: Int?): PostDetailFragment {
-
-            return PostDetailFragment().apply {
-                arguments = Bundle().apply {
-                    position?.let { putInt(ARG_ITEM_POS, it) }
-                }
-            }
         }
     }
 }

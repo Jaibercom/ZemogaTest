@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.model.Comment
-import kotlinx.android.synthetic.main.comment_list_content.view.*
+import kotlinx.android.synthetic.main.comment_list_content.view.commentItem
 
 /**
  *

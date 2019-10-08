@@ -3,7 +3,6 @@ package com.zemoga.zemogatest.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zemoga.zemogatest.api.ApiService
 import com.zemoga.zemogatest.api.RetrofitFactory
 import com.zemoga.zemogatest.model.Comment
 import com.zemoga.zemogatest.model.Post

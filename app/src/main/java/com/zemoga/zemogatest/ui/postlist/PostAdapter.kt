@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.model.Post
-import kotlinx.android.synthetic.main.post_list_content.view.*
+import kotlinx.android.synthetic.main.post_list_content.view.blue_dot
+import kotlinx.android.synthetic.main.post_list_content.view.content
+import kotlinx.android.synthetic.main.post_list_content.view.star
 
 /**
  *

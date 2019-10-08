@@ -4,7 +4,6 @@ import com.zemoga.zemogatest.model.Comment
 import com.zemoga.zemogatest.model.Post
 import com.zemoga.zemogatest.model.User
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -21,5 +20,4 @@ interface ApiService {
     @GET("/comments")
     fun requestComments(@Query(value = "postId") userId: Int): Call<List<Comment>>
 
-    //https://jsonplaceholder.typicode.com/comments?postId=1
 }
