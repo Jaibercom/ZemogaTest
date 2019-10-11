@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/postListFragment">
+    app:startDestination="@+id/postListFragment">
 
     <fragment
         android:id="@+id/postListFragment"
         android:name="com.zemoga.zemogatest.ui.postlist.PostListFragment"
-        android:label="@string/title_post_list">
-        <action
-            android:id="@+id/action_postListFragment_to_postDetailFragment"
-            app:destination="@id/postDetailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
-    </fragment>
+        android:label="@string/title_post_list"
+        tools:layout="@layout/fragment_post_list" />
 
     <fragment
-        android:id="@+id/postDetailFragment"
-        android:name="com.zemoga.zemogatest.ui.detail.PostDetailFragment"
-        android:label="@string/title_post_detail">
-        <action
-            android:id="@+id/action_postDetailFragment_to_postListFragment"
-            app:destination="@id/postListFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            />
-    </fragment>
+        android:id="@+id/navigation_dashboard"
+        android:name="com.zemoga.zemogatest.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.zemoga.zemogatest.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
 </navigation>

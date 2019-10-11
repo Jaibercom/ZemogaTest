@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.ui.PostViewModel
+import kotlinx.android.synthetic.main.activity_main.nav_view
+import kotlinx.android.synthetic.main.fragment_post_list.coordinator
 import kotlinx.android.synthetic.main.fragment_post_list.delete_fab
 import kotlinx.android.synthetic.main.post_list.post_list
 import timber.log.Timber
@@ -56,7 +59,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         delete_fab.setOnClickListener(onDeleteClick())
     }
 
-     override fun onResume() {
+    override fun onResume() {
         super.onResume()
 
         postViewModel.observablePostList.value?.let {
@@ -91,8 +94,16 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     }
 
     private fun onDeleteClick() = View.OnClickListener { view ->
-        Snackbar.make(view, "Delete?", Snackbar.LENGTH_LONG)
-            .setAction("OK", oKListener()).show()
+        //        nav_view.visibility = View.GONE
+//        Snackbar.make(view, "Delete?", Snackbar.LENGTH_LONG)
+//            .setAction("OK", oKListener()).show()
+
+        Snackbar.make(coordinator, "Your message", Snackbar.LENGTH_LONG).apply {
+            view.layoutParams = (view.layoutParams as CoordinatorLayout.LayoutParams).apply {
+                setMargins(leftMargin, topMargin, rightMargin, nav_view.height)
+            }
+        }.show()
+
     }
 
     private fun oKListener() = View.OnClickListener {
