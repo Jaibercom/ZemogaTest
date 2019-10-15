@@ -20,11 +20,11 @@ class PostViewModel : ViewModel() {
     private val selected = MutableLiveData<Post>()
     private val position = MutableLiveData<Int>()
 
-    fun getPosts(): LiveData<List<Post>>? {
+    fun getPosts(): LiveData<List<Post>> {
         if (posts?.value.isNullOrEmpty()) {
             loadPosts()
         }
-        return posts
+        return posts as LiveData<List<Post>>
     }
 
     fun deletePosts() {

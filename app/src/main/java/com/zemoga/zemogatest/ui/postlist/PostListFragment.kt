@@ -72,7 +72,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     private fun showPosts() {
         Timber.d("showPosts")
 
-        postViewModel.getPosts()?.observe(this, Observer { posts ->
+        postViewModel.getPosts().observe(this, Observer { posts ->
             Timber.d("Size: ${posts?.size}")
             postAdapter.updatePostList(posts)
         })
