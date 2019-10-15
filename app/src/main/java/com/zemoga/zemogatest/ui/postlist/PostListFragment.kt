@@ -22,7 +22,7 @@ import timber.log.Timber
 
 
 /**
- * A simple [Fragment] subclass.
+ * A Post list Fragment.
  */
 class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
@@ -35,10 +35,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
         postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
 
-        if (postViewModel.observablePostList.value.isNullOrEmpty()) {
-            postViewModel.requestPosts()
-        }
-        subscribeUi()
+        showPosts()
     }
 
     override fun onCreateView(
@@ -59,9 +56,9 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
      override fun onResume() {
         super.onResume()
 
-        postViewModel.observablePostList.value?.let {
-            postAdapter.updatePostList(it)
-        }
+//        postViewModel.getPosts().value?.let {
+//            postAdapter.updatePostList(it)
+//        }
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -72,8 +69,10 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    private fun subscribeUi() {
-        postViewModel.observablePostList.observe(this, Observer { posts ->
+    private fun showPosts() {
+        Timber.d("showPosts")
+
+        postViewModel.getPosts()?.observe(this, Observer { posts ->
             Timber.d("Size: ${posts?.size}")
             postAdapter.updatePostList(posts)
         })
@@ -83,7 +82,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         Timber.d("onPostClicked $position")
 
         this.postViewModel.setPosition(position)
-        this.postViewModel.observablePostList.value?.get(position)?.isRead = true
+        this.postViewModel.select(position)
 
         view?.let {
             findNavController(it).navigate(R.id.action_postListFragment_to_postDetailFragment)
@@ -97,7 +96,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
 
     private fun oKListener() = View.OnClickListener {
         Timber.d("Deleting Post")
-        postViewModel.setPostList(emptyList())
+        postViewModel.deletePosts()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -107,7 +106,9 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
-                postViewModel.requestPosts()
+                Timber.d("Action refresh")
+                showPosts()
+//                postViewModel.getPosts()
                 true
             }
             else -> super.onOptionsItemSelected(item)

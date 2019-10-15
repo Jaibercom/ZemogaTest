@@ -28,7 +28,6 @@ import timber.log.Timber
 
 /**
  * A fragment representing a single Post detail screen.
- *
  */
 class PostDetailFragment : Fragment() {
 
@@ -72,24 +71,25 @@ class PostDetailFragment : Fragment() {
     }
 
     private fun subscribeUI() {
-        postViewModel.observablePosition.observe(this, Observer { position ->
-            // update UI
-            position?.let {
-                Timber.i("Position $position")
-                post = postViewModel.observablePostList.value?.get(it)!!
 
-                updateUi()
-                requestUser(post.userId)
-                requestComments(post.id)
-            }
+        postViewModel.getSelected().observe(this, Observer {
+            post = it
+
+            getUser(post.userId)
+            getComments(post.id)
+            updateUi()
         })
+    }
 
-        detailViewModel.observableUser.observe(this, Observer {
+    private fun getUser(userId: Int) {
+        detailViewModel.getUser(userId).observe(this, Observer<User> {
             user = it
             updateUi()
         })
+    }
 
-        detailViewModel.observableComment.observe(this, Observer {
+    private fun getComments(postId: Int) {
+        detailViewModel.getComments(postId).observe(this, Observer {
             Timber.d("ListComment size: ${it.size}")
             for (value in it) {
                 Timber.d("Comment: ${value.name}")
@@ -114,14 +114,6 @@ class PostDetailFragment : Fragment() {
         }
     }
 
-    private fun requestUser(userId: Int) {
-        detailViewModel.requestUser(userId)
-    }
-
-    private fun requestComments(postId: Int) {
-        detailViewModel.requestComments(postId)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_detail_list, menu)
     }
@@ -131,14 +123,14 @@ class PostDetailFragment : Fragment() {
         Timber.d("onOptionsItemSelected")
         return when (item.itemId) {
             R.id.action_favorite -> {
-                Timber.d("addFavorite")
+                Timber.d("Action add Favorite ")
                 postViewModel.addFavorites()
                 this.findNavController()
                     .navigate(R.id.action_postDetailFragment_to_postListFragment)
                 true
             }
             android.R.id.home -> {
-                Timber.d("up navigation")
+                Timber.d("Action up navigation")
                 super.onOptionsItemSelected(item)
                 this.findNavController()
                     .navigate(R.id.action_postDetailFragment_to_postListFragment)
