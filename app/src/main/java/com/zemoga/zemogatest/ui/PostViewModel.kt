@@ -20,7 +20,7 @@ class PostViewModel : ViewModel() {
     private val selected = MutableLiveData<Post>()
     private val position = MutableLiveData<Int>()
 
-    fun getPosts(): MutableLiveData<List<Post>>? {
+    fun getPosts(): LiveData<List<Post>>? {
         if (posts?.value.isNullOrEmpty()) {
             loadPosts()
         }
@@ -31,17 +31,16 @@ class PostViewModel : ViewModel() {
         posts?.value = emptyList()
     }
 
-    private fun loadPosts(): MutableLiveData<List<Post>>? {
+    private fun loadPosts() {
         posts = liveData(Dispatchers.IO) {
             val data = repository.requestPosts()
             emit(data)
         } as MutableLiveData<List<Post>>
-        return posts
     }
 
 
     fun select(pos: Int) {
-        posts?.value?.get(pos)?.let{
+        posts?.value?.get(pos)?.let {
             selected.value = it
             it.isRead = true
         }
