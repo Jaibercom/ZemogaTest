@@ -53,14 +53,6 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
         delete_fab.setOnClickListener(onDeleteClick())
     }
 
-     override fun onResume() {
-        super.onResume()
-
-//        postViewModel.getPosts().value?.let {
-//            postAdapter.updatePostList(it)
-//        }
-    }
-
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         postAdapter = PostAdapter(this as PostAdapter.OnItemClickListener)
         recyclerView.adapter = postAdapter
