@@ -3,62 +3,65 @@ package com.zemoga.zemogatest.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zemoga.zemogatest.api.RetrofitFactory
+import androidx.lifecycle.liveData
+import com.zemoga.zemogatest.api.Repository
 import com.zemoga.zemogatest.model.Post
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
 
+
+/**
+ * Post View Model
+ */
 class PostViewModel : ViewModel() {
 
-    private var postList = MutableLiveData<List<Post>>()
+    private val repository = Repository()
+    private var posts: MutableLiveData<List<Post>>? = null
+    private val selected = MutableLiveData<Post>()
     private val position = MutableLiveData<Int>()
 
-    val observablePostList: LiveData<List<Post>>
-        get() = postList
+    fun getPosts(): LiveData<List<Post>> {
+        if (posts?.value.isNullOrEmpty()) {
+            loadPosts()
+        }
+        return posts as LiveData<List<Post>>
+    }
 
-    val observablePosition: LiveData<Int>
-        get() = position
+    fun deletePosts() {
+        posts?.value = emptyList()
+    }
+
+    private fun loadPosts() {
+        posts = liveData(Dispatchers.IO) {
+            val data = repository.requestPosts()
+            emit(data)
+        } as MutableLiveData<List<Post>>
+    }
+
+
+    fun select(pos: Int) {
+        posts?.value?.get(pos)?.let {
+            selected.value = it
+            it.isRead = true
+        }
+    }
+
+    fun getSelected(): LiveData<Post> {
+        return selected
+    }
 
     fun setPosition(pos: Int) {
         position.value = pos
     }
 
-    fun setPostList(posts: List<Post>?) {
-        postList.value = posts
-    }
 
     fun addFavorites() {
-        postList.value?.let {
+        posts?.value?.let {
             val favorite = it[position.value!!].isFavorite
             it[position.value!!].isFavorite = !favorite
         }
-        val list = postList.value?.filter { it.isFavorite }
+        val list = posts?.value?.filter { it.isFavorite }
 
         Timber.d("Favorites: ${list?.size}")
-    }
-
-    //TODO create a repository
-    fun requestPosts() {
-        Timber.d("Loading postList")
-
-        val apiService = RetrofitFactory.apiService()
-        apiService.requestPosts().enqueue(object : Callback<List<Post>> {
-
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                Timber.d("onResponse")
-
-                if (response.isSuccessful) {
-                    setPostList(response.body())
-                } else {
-                    //TODO Show error
-                }
-            }
-
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                Timber.d("error ${t.message}")
-            }
-        })
     }
 }
