@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.post_list_content.view.content
 import kotlinx.android.synthetic.main.post_list_content.view.star
 
 /**
- *
+ * Post Adapter class
  */
 class PostAdapter(
     private val clickListener: OnItemClickListener

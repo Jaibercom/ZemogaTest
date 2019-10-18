@@ -23,11 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.PostActivity"
-            android:label="@string/title_post_list"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-    </application>
+      </application>
 
 </manifest>

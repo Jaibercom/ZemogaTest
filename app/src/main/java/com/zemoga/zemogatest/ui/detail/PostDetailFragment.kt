@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.zemoga.zemogatest.MainActivity
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.model.Comment
 import com.zemoga.zemogatest.model.Post
@@ -47,8 +48,16 @@ class PostDetailFragment : Fragment() {
         postViewModel = ViewModelProviders.of(activity!!).get(PostViewModel::class.java)
         detailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
         subscribeUI()
+
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        activity?.let{
+            (activity as MainActivity).showNavBottom(false)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -124,7 +133,7 @@ class PostDetailFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_favorite -> {
                 Timber.d("Action add Favorite ")
-                postViewModel.addFavorites()
+                postViewModel.addToFavorites()
                 this.findNavController()
                     .navigate(R.id.action_postDetailFragment_to_postListFragment)
                 true

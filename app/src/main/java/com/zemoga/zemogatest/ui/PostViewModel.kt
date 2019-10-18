@@ -27,6 +27,18 @@ class PostViewModel : ViewModel() {
         return posts as LiveData<List<Post>>
     }
 
+    fun getFavoritePosts(): LiveData<List<Post>>? {
+
+        val liveData = MutableLiveData<List<Post>>()
+        posts?.value?.let{ posts ->
+            liveData.value = posts.filter {
+                it.isFavorite
+            }
+        }
+
+        return liveData
+    }
+
     fun deletePosts() {
         posts?.value = emptyList()
     }
@@ -54,8 +66,7 @@ class PostViewModel : ViewModel() {
         position.value = pos
     }
 
-
-    fun addFavorites() {
+    fun addToFavorites() {
         posts?.value?.let {
             val favorite = it[position.value!!].isFavorite
             it[position.value!!].isFavorite = !favorite
