@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.zemoga.zemogatest.MainActivity
+import com.zemoga.zemogatest.ui.MainActivity
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.ui.PostViewModel
 import com.zemoga.zemogatest.ui.postlist.PostAdapter

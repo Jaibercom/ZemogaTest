@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zemoga.zemogatest.MainActivity
+import com.zemoga.zemogatest.ui.MainActivity
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.model.Comment
 import com.zemoga.zemogatest.model.Post

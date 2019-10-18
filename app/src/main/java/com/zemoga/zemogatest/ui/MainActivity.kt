@@ -1,4 +1,4 @@
-package com.zemoga.zemogatest
+package com.zemoga.zemogatest.ui
 
 import android.os.Bundle
 import android.view.View
@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.zemoga.zemogatest.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_post_list, R.id.navigation_favorites
+                R.id.navigation_post_list,
+                R.id.navigation_favorites
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

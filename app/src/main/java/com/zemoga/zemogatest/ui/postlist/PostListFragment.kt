@@ -13,9 +13,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.zemoga.zemogatest.MainActivity
+import com.zemoga.zemogatest.ui.MainActivity
 import com.zemoga.zemogatest.R
 import com.zemoga.zemogatest.ui.PostViewModel
 import kotlinx.android.synthetic.main.fragment_post_list.delete_fab
