@@ -23,7 +23,6 @@ class DetailViewModel : ViewModel() {
 
     private var comments = MutableLiveData<List<Comment>>()
 
-
     fun getUser(pos: Int): MutableLiveData<User> {
         user = liveData(Dispatchers.IO) {
             val data = repository.requestUser(pos)

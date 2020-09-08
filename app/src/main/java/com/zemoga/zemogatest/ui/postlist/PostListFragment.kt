@@ -42,7 +42,7 @@ class PostListFragment : Fragment(), PostAdapter.OnItemClickListener {
     override fun onResume() {
         super.onResume()
 
-        activity?.let{
+        activity?.let {
             (activity as MainActivity).showNavBottom(true)
         }
     }

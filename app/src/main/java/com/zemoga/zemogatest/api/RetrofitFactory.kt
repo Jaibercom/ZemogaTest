@@ -1,5 +1,6 @@
 package com.zemoga.zemogatest.api
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 import retrofit2.Retrofit
@@ -9,11 +10,11 @@ object RetrofitFactory {
 
     const val BASE_URL = "https://jsonplaceholder.typicode.com"
 
-    val gson = GsonBuilder()
+    private val gson: Gson = GsonBuilder()
         .setLenient()
         .create()
 
-    fun retrofit(): Retrofit = Retrofit.Builder()
+    private fun retrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()

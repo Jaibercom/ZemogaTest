@@ -9,6 +9,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.zemoga.zemogatest.R
+import com.zemoga.zemogatest.db.AppDatabase
+import com.zemoga.zemogatest.db.entity.PostEntity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +24,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupNavigation()
+//        val db = AppDatabase.getDatabase(this)
+//
+//        GlobalScope.launch {
+//            db.postDao().insertAll(
+//                PostEntity(1, "Content 1", "body 1"),
+//                PostEntity(2, "Content 2", "body 2"),
+//                PostEntity(3, "Content 3", "body 3"),
+//                PostEntity(4, "Content 4", "body 4")
+//            )
+//            val data = db.postDao().getAll2()
+//
+//            data.forEach {
+////                println(it)
+//                Timber.d(it.title)
+//            }
+//        }
+
+
     }
 
     private fun setupNavigation() {
@@ -44,5 +67,4 @@ class MainActivity : AppCompatActivity() {
             navView.visibility = View.GONE
         }
     }
-
 }

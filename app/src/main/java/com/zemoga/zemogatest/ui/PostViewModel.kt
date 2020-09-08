@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.zemoga.zemogatest.api.Repository
+import com.zemoga.zemogatest.DataRepository
 import com.zemoga.zemogatest.model.Post
 import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
@@ -15,10 +15,11 @@ import timber.log.Timber
  */
 class PostViewModel : ViewModel() {
 
-    private val repository = Repository()
+    private var repository = DataRepository.getInstance()
     private var posts: MutableLiveData<List<Post>>? = null
     private val selected = MutableLiveData<Post>()
     private val position = MutableLiveData<Int>()
+
 
     fun getPosts(): LiveData<List<Post>> {
         if (posts?.value.isNullOrEmpty()) {
@@ -30,7 +31,7 @@ class PostViewModel : ViewModel() {
     fun getFavoritePosts(): LiveData<List<Post>>? {
 
         val liveData = MutableLiveData<List<Post>>()
-        posts?.value?.let{ posts ->
+        posts?.value?.let { posts ->
             liveData.value = posts.filter {
                 it.isFavorite
             }
@@ -45,11 +46,16 @@ class PostViewModel : ViewModel() {
 
     private fun loadPosts() {
         posts = liveData(Dispatchers.IO) {
-            val data = repository.requestPosts()
+            val data = repository.getPosts()
+
             emit(data)
         } as MutableLiveData<List<Post>>
-    }
 
+//        posts = liveData(Dispatchers.IO) {
+//            val data = repository.requestPosts()
+//            emit(data)
+//        } as MutableLiveData<List<Post>>
+    }
 
     fun select(pos: Int) {
         posts?.value?.get(pos)?.let {
